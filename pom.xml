@@ -16,11 +16,12 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>16</java.version>
+        <java.version>11</java.version>
         <jaxb.version>2.3.1</jaxb.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <jaxb-core.version>2.3.0.1</jaxb-core.version>
     </properties>
     <dependencies>
         <dependency>
@@ -70,7 +71,7 @@
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-core</artifactId>
-            <version>2.3.0.1</version>
+            <version>${jaxb-core.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-@Component
+// @Component - Data is coming from data.sql
 public class BeerLoader implements CommandLineRunner {
 
     private final BeerRepository beerRepository;

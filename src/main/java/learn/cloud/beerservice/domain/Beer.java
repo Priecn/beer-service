@@ -19,6 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "BEER")
 public class Beer {
 
     @Id
@@ -35,9 +36,12 @@ public class Beer {
     private Timestamp createdDate;
 
     @UpdateTimestamp
-    private Timestamp lastModifiedName;
+    private Timestamp lastModifiedDate;
+
+    @Column(name = "BEER_NAME")
     private String name;
 
+    @Column(name = "BEER_STYLE")
     @Enumerated(EnumType.STRING)
     private BeerStyleEnum style;
 
