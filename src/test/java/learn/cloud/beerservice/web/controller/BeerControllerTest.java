@@ -2,11 +2,15 @@ package learn.cloud.beerservice.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import learn.cloud.beerservice.bootstrap.BeerLoader;
+import learn.cloud.beerservice.service.BeerService;
 import learn.cloud.beerservice.web.model.BeerDto;
 import learn.cloud.beerservice.web.model.BeerStyleEnum;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -25,8 +29,12 @@ class BeerControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @MockBean
+    BeerService beerService;
+
     @Test
     void getBeerById() throws Exception {
+        BDDMockito.given(beerService.getById(Mockito.any())).willReturn(getValidBeerDto());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/beer/" + UUID.randomUUID())
                 .accept(MediaType.APPLICATION_JSON))
@@ -36,6 +44,10 @@ class BeerControllerTest {
 
     @Test
     void createNewBeer() throws Exception {
+
+        BDDMockito.given(beerService.saveNewBeer(Mockito.any(BeerDto.class)))
+                .willReturn(UUID.randomUUID());
+
         BeerDto beerDto = getValidBeerDto();
         String beerToString = objectMapper.writeValueAsString(beerDto);
 
@@ -47,11 +59,14 @@ class BeerControllerTest {
 
     @Test
     void updateBeer() throws Exception {
+        UUID randomUUID = UUID.randomUUID();
+        BDDMockito.given(beerService.saveNewBeer(Mockito.any(BeerDto.class)))
+                .willReturn(randomUUID);
 
         BeerDto beerDto = getValidBeerDto();
         String beerToString = objectMapper.writeValueAsString(beerDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/beer/" + UUID.randomUUID())
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/beer/" + randomUUID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(beerToString))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
@@ -69,10 +84,13 @@ class BeerControllerTest {
     @Test
     void updateBeerInvalid() throws Exception {
 
+        UUID randomUUID = UUID.randomUUID();
+        BDDMockito.given(beerService.saveNewBeer(Mockito.any(BeerDto.class)))
+                .willReturn(randomUUID);
         BeerDto beerDto = BeerDto.builder().build();
         String beerToString = objectMapper.writeValueAsString(beerDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/beer/" + UUID.randomUUID())
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/beer/" + randomUUID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(beerToString))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());

@@ -4,10 +4,11 @@ import learn.cloud.beerservice.web.model.BeerDto;
 
 import java.util.UUID;
 
+
 public interface BeerService {
-    BeerDto getById(UUID beerId, Boolean showInventoryOnHand);
+    UUID saveNewBeer(BeerDto beerDto);
 
-    BeerDto saveNewBeer(BeerDto beerDto);
+    UUID updateBeer(UUID beerId, BeerDto beerDto);
 
-    BeerDto updateBeer(UUID beerId, BeerDto beerDto);
+    BeerDto getById(UUID beerId);
 }

@@ -13,9 +13,9 @@ public class BeerLoader implements CommandLineRunner {
 
     private final BeerRepository beerRepository;
 
-    public static final Long BEER_1_UPC = 063123420003L;
-    public static final Long BEER_2_UPC = 063123430001L;
-    public static final Long BEER_3_UPC = 063123430003L;
+    public static final String BEER_1_UPC = "0631234200036";
+    public static final String BEER_2_UPC = "0631234300019";
+    public static final String BEER_3_UPC = "0083783375213";
 
 
     public BeerLoader(BeerRepository beerRepository) {
