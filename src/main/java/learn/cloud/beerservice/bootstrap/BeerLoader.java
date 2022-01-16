@@ -13,6 +13,11 @@ public class BeerLoader implements CommandLineRunner {
 
     private final BeerRepository beerRepository;
 
+    public static final Long BEER_1_UPC = 063123420003L;
+    public static final Long BEER_2_UPC = 063123430001L;
+    public static final Long BEER_3_UPC = 063123430003L;
+
+
     public BeerLoader(BeerRepository beerRepository) {
         this.beerRepository = beerRepository;
     }
@@ -29,7 +34,7 @@ public class BeerLoader implements CommandLineRunner {
                             .style(BeerStyleEnum.IPA)
                             .minOnHand(12)
                             .quantityToBrew(200)
-                            .upc(337010000001L)
+                            .upc(BEER_1_UPC)
                             .price(new BigDecimal("12.99"))
                             .build());
 
@@ -38,8 +43,17 @@ public class BeerLoader implements CommandLineRunner {
                     .style(BeerStyleEnum.PALE_ALE)
                     .minOnHand(12)
                     .quantityToBrew(200)
-                    .upc(337010000002L)
+                    .upc(BEER_2_UPC)
                     .price(new BigDecimal("11.59"))
+                    .build());
+
+            beerRepository.save(Beer.builder()
+                    .name("Pinball Porter")
+                    .style(BeerStyleEnum.PALE_ALE)
+                    .minOnHand(15)
+                    .quantityToBrew(100)
+                    .upc(BEER_3_UPC)
+                    .price(new BigDecimal("15.3"))
                     .build());
         }
 
