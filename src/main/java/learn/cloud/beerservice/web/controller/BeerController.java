@@ -2,7 +2,10 @@ package learn.cloud.beerservice.web.controller;
 
 import learn.cloud.beerservice.service.BeerService;
 import learn.cloud.beerservice.web.model.BeerDto;
+import learn.cloud.beerservice.web.model.BeerPagedList;
+import learn.cloud.beerservice.web.model.BeerStyleEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,9 @@ import java.util.UUID;
 @RequestMapping("/api/v1/beer")
 public class BeerController {
 
+    private static final Integer DEFAULT_PAGE_NUMBER = 0;
+    private static final Integer DEFAULT_PAGE_SIZE = 25;
+
     final BeerService beerService;
 
     @GetMapping("/{beerId}")
@@ -23,20 +29,38 @@ public class BeerController {
         return new ResponseEntity<>(beerService.getById(beerId), HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<BeerPagedList> listBeers(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                   @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                   @RequestParam(value = "beerName", required = false) String beerName,
+                                                   @RequestParam(value = "beerStyle", required = false) BeerStyleEnum beerStyle) {
+
+        if(pageNumber == null || pageNumber < 0) {
+            pageNumber = DEFAULT_PAGE_NUMBER;
+        }
+
+        if(pageSize == null || pageSize < 0) {
+            pageSize = DEFAULT_PAGE_SIZE;
+        }
+
+        BeerPagedList beerPagedList = beerService.listBeers(beerName, beerStyle, PageRequest.of(pageNumber, pageSize));
+
+        return ResponseEntity.ok(beerPagedList);
+    }
     @PostMapping
-    public ResponseEntity createNewBeer(@RequestBody @Validated BeerDto beer) {
+    public ResponseEntity<Void> createNewBeer(@RequestBody @Validated BeerDto beer) {
         UUID savedBeerId = beerService.saveNewBeer(beer);
         HttpHeaders headers = new HttpHeaders();
         headers.add("location", "/api/v1/beer/" + savedBeerId);
-        return new ResponseEntity(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @PutMapping("/{beerId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity updateBeer(@PathVariable UUID beerId, @RequestBody @Validated BeerDto beer) {
+    public ResponseEntity<Void> updateBeer(@PathVariable UUID beerId, @RequestBody @Validated BeerDto beer) {
         beerService.updateBeer(beerId, beer);
         HttpHeaders headers = new HttpHeaders();
         headers.add("location", "/api/v1/beer/" + beerId);
-        return new ResponseEntity(headers, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
     }
 }

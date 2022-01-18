@@ -60,8 +60,8 @@ class BeerControllerTest {
     @Test
     void updateBeer() throws Exception {
         UUID randomUUID = UUID.randomUUID();
-        BDDMockito.given(beerService.saveNewBeer(Mockito.any(BeerDto.class)))
-                .willReturn(randomUUID);
+        BDDMockito.willDoNothing()
+                .given(beerService).updateBeer(Mockito.any(), Mockito.any(BeerDto.class));
 
         BeerDto beerDto = getValidBeerDto();
         String beerToString = objectMapper.writeValueAsString(beerDto);
@@ -85,8 +85,8 @@ class BeerControllerTest {
     void updateBeerInvalid() throws Exception {
 
         UUID randomUUID = UUID.randomUUID();
-        BDDMockito.given(beerService.saveNewBeer(Mockito.any(BeerDto.class)))
-                .willReturn(randomUUID);
+        BDDMockito.willDoNothing()
+                .given(beerService).updateBeer(Mockito.any(), Mockito.any(BeerDto.class));
         BeerDto beerDto = BeerDto.builder().build();
         String beerToString = objectMapper.writeValueAsString(beerDto);
 
