@@ -34,7 +34,7 @@ class BeerControllerTest {
 
     @Test
     void getBeerById() throws Exception {
-        BDDMockito.given(beerService.getById(Mockito.any())).willReturn(getValidBeerDto());
+        BDDMockito.given(beerService.getById(Mockito.any(), Mockito.anyBoolean())).willReturn(getValidBeerDto());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/beer/" + UUID.randomUUID())
                 .accept(MediaType.APPLICATION_JSON))

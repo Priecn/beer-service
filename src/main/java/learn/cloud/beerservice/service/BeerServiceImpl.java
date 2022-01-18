@@ -40,14 +40,19 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public BeerDto getById(UUID beerId) {
+    public BeerDto getById(UUID beerId, Boolean showInventoryOnHand) {
+        if (showInventoryOnHand){
+            return beerMapper.beerToBeerDtoWithInventory(
+                    beerRepository.findById(beerId)
+                            .orElseThrow(NotFoundException::new));
+        }
         return beerMapper.beerToBeerDto(
                 beerRepository.findById(beerId)
                         .orElseThrow(NotFoundException::new));
     }
 
     @Override
-    public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest) {
+    public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest, Boolean showInventoryOnHand) {
         Page<Beer> beerPage;
         if (!StringUtils.isEmpty(beerName) && !StringUtils.isEmpty(beerStyle))
             beerPage = beerRepository.findAllByNameAndStyle(beerName, beerStyle, pageRequest);
@@ -58,11 +63,21 @@ public class BeerServiceImpl implements BeerService {
         else
             beerPage = beerRepository.findAll(pageRequest);
 
-        return new BeerPagedList(
-                beerPage.getContent()
-                        .stream()
-                        .map(beerMapper::beerToBeerDtoWithInventory)
-                        .collect(Collectors.toList()),
+        List<BeerDto> data = null;
+
+        if (showInventoryOnHand) {
+            data = beerPage.getContent()
+                    .stream()
+                    .map(beerMapper::beerToBeerDtoWithInventory)
+                    .collect(Collectors.toList());
+        } else {
+            data = beerPage.getContent()
+                    .stream()
+                    .map(beerMapper::beerToBeerDto)
+                    .collect(Collectors.toList());
+        }
+
+        return new BeerPagedList(data,
                 PageRequest.of(beerPage.getPageable().getPageNumber(),
                         beerPage.getPageable().getPageSize()),
                 beerPage.getTotalPages()
