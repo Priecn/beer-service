@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    username: beer_service
+    password: password
+    url: jdbc:mysql://localhost:3306/beerservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    hikari:
+      maximum-pool-size: 5
+      data-source-properties.cachePrepStmts: true
+      data-source-properties.prepStmtCacheSize: 250
+      data-source-properties.prepStmtCacheSqlLimit: 2048
+      data-source-properties.useServerPrepStmts: true
+      data-source-properties.useLocalSessionState: true
+      data-source-properties.rewriteBatchedStatements: true
+      data-source-properties.cacheResultSetMetadata: true
+      data-source-properties.cacheServerConfiguration: true
+      data-source-properties.elideSetAutoCommits: true
+      data-source-properties.maintainTimeStats: false
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+
+# Enable logging for config troubleshooting
+logging.level:
+  com.zaxxer.hikari:
+    HikariConfig: DEBUG
+  org.hibernate:
+    SQL: DEBUG
+    type.descriptor.sql.BasicBinder: TRACE
