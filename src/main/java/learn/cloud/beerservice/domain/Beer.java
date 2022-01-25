@@ -1,6 +1,6 @@
 package learn.cloud.beerservice.domain;
 
-import learn.cloud.beerservice.web.model.BeerStyleEnum;
+import learn.cloud.common.model.BeerStyleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

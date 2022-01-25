@@ -2,10 +2,13 @@ package learn.cloud.beerservice.bootstrap;
 
 import learn.cloud.beerservice.domain.Beer;
 import learn.cloud.beerservice.repository.BeerRepository;
-import learn.cloud.beerservice.web.model.BeerStyleEnum;
+import learn.cloud.common.model.BeerStyleEnum;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+
+@Component
 public class BeerLoader implements CommandLineRunner {
 
     private final BeerRepository beerRepository;

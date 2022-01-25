@@ -1,4 +1,4 @@
-package learn.cloud.beerservice.web.model;
+package learn.cloud.common.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

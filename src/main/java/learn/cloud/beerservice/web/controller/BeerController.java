@@ -1,9 +1,9 @@
 package learn.cloud.beerservice.web.controller;
 
 import learn.cloud.beerservice.service.BeerService;
-import learn.cloud.beerservice.web.model.BeerDto;
+import learn.cloud.common.model.BeerDto;
 import learn.cloud.beerservice.web.model.BeerPagedList;
-import learn.cloud.beerservice.web.model.BeerStyleEnum;
+import learn.cloud.common.model.BeerStyleEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;

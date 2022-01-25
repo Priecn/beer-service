@@ -1,7 +1,7 @@
 package learn.cloud.beerservice.web.mapper;
 
 import learn.cloud.beerservice.domain.Beer;
-import learn.cloud.beerservice.web.model.BeerDto;
+import learn.cloud.common.model.BeerDto;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 
